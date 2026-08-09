@@ -1,0 +1,2 @@
+export function tokenCost(inputTokens: number, outputTokens: number, inputCostPerMTok: number, outputCostPerMTok: number): number { return inputTokens / 1_000_000 * inputCostPerMTok + outputTokens / 1_000_000 * outputCostPerMTok }
+export function dedupeCitations<T extends { url: string }>(items: T[]): T[] { const seen = new Set<string>(); return items.filter((item) => !seen.has(item.url) && (seen.add(item.url), true)) }

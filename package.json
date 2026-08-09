@@ -1,0 +1,9 @@
+{
+  "name": "geosuite",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "engines": { "node": ">=22" },
+  "scripts": { "build": "tsc -b", "typecheck": "tsc -b", "test": "vitest run" },
+  "devDependencies": { "@types/node": "^22.9.0", "typescript": "^5.6.3", "vitest": "^2.1.4", "zod": "^3.23.8" }
+}

@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "packages/db" },
+    { "path": "packages/engines" },
+    { "path": "packages/extraction" },
+    { "path": "packages/scoring" },
+    { "path": "packages/probe-engine" }
+  ]
+}

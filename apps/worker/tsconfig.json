@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "rootDir": "src", "outDir": "dist" },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.ts"],
+  "references": [
+    { "path": "../../packages/shared" }, { "path": "../../packages/db" },
+    { "path": "../../packages/engines" }, { "path": "../../packages/extraction" },
+    { "path": "../../packages/scoring" }, { "path": "../../packages/probe-engine" }
+  ]
+}

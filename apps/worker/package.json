@@ -1,0 +1,17 @@
+{
+  "name": "@geosuite/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "tsc -b", "start": "node dist/main.js", "probe": "node dist/cli.js" },
+  "dependencies": {
+    "@geosuite/db": "workspace:*",
+    "@geosuite/engines": "workspace:*",
+    "@geosuite/extraction": "workspace:*",
+    "@geosuite/probe-engine": "workspace:*",
+    "@geosuite/scoring": "workspace:*",
+    "@geosuite/shared": "workspace:*",
+    "bullmq": "^5.28.0",
+    "ioredis": "^5.4.1"
+  }
+}
