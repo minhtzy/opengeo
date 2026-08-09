@@ -38,7 +38,7 @@ export const probeResults = pgTable(
     cacheHit: boolean('cache_hit').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => ({ byRun: index('probe_results_run_idx').on(table.orgId, table.runId) }),
+  (table) => ({ byRun: index('probe_results_run_idx').on(table.orgId, table.runId), uniqueRunPromptEngine: unique('probe_results_run_prompt_engine_uq').on(table.orgId, table.runId, table.promptId, table.engineId) }),
 )
 
 export const citations = pgTable(
@@ -72,7 +72,7 @@ export const observations = pgTable(
     accuracyFlags: jsonb('accuracy_flags').$type<AccuracyFlag[]>().notNull().default(sql`'[]'::jsonb`),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => ({ byRun: index('observations_run_idx').on(table.orgId, table.runId) }),
+  (table) => ({ byRun: index('observations_run_idx').on(table.orgId, table.runId), uniqueRunPromptEngine: unique('observations_run_prompt_engine_uq').on(table.orgId, table.runId, table.promptId, table.engineId) }),
 )
 
 export const dailyMetrics = pgTable(
