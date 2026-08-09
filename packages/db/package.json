@@ -1,0 +1,29 @@
+{
+  "name": "@geosuite/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "generate": "tsc -b && drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@geosuite/shared": "workspace:*",
+    "drizzle-orm": "^0.36.0",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "^10.13.2",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.28.0"
+  }
+}

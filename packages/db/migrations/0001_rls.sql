@@ -1,0 +1,3 @@
+CREATE OR REPLACE FUNCTION app_current_org() RETURNS uuid LANGUAGE sql STABLE AS $$ SELECT NULLIF(current_setting('app.current_org', true), '')::uuid $$;
+--> statement-breakpoint
+DO $$ DECLARE target text; BEGIN FOREACH target IN ARRAY ARRAY['memberships','brands','brand_profiles','brand_facts','competitors','prompts','engine_configs','probe_runs','probe_results','citations','observations','daily_metrics','usage_records'] LOOP EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', target); EXECUTE format('ALTER TABLE %I FORCE ROW LEVEL SECURITY', target); EXECUTE format('CREATE POLICY org_isolation ON %I USING (org_id = app_current_org()) WITH CHECK (org_id = app_current_org())', target); END LOOP; END $$;
