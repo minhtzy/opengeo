@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "jsx": "react-jsx", "noEmit": true, "module": "ESNext", "moduleResolution": "Bundler", "lib": ["ES2023", "DOM"], "esModuleInterop": true, "tsBuildInfoFile": "node_modules/.cache/geosuite-web.tsbuildinfo", "types": ["vite/client", "vitest/globals"] },
+  "include": ["src", "vite.config.ts"]
+}
