@@ -33,4 +33,15 @@ describe('App', () => {
     render(<MemoryRouter initialEntries={['/dashboard']}><App /></MemoryRouter>)
     expect(screen.getByText(/collecting your first AI visibility data/i)).toBeInTheDocument()
   })
+
+  it.each([
+    ['/prompts', /prompts you’re tracking/i],
+    ['/sources', /AI sources/i],
+    ['/settings', /workspace settings/i],
+  ])('keeps a configured workspace available at %s', (path, heading) => {
+    saveBrandConfig({ brandName: 'GeoSuite', website: 'https://geosuite.ai', trackingMode: 'website', prompts: [] })
+    render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>)
+    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /welcome back/i })).not.toBeInTheDocument()
+  })
 })
