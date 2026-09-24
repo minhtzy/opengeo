@@ -20,6 +20,12 @@ beforeAll(async () => {
   await asOrg(orgB, c => c.query('INSERT INTO brands (org_id, name) VALUES ($1, $2)', [orgB, 'Brand B']))
 })
 afterAll(async () => { await pool?.end(); await handle?.stop() })
+it('runs as a role that cannot bypass row-level security', async () => {
+  const { rows } = await pool.query<{ rolsuper: boolean; rolbypassrls: boolean }>(
+    'SELECT rolsuper, rolbypassrls FROM pg_roles WHERE rolname = current_user',
+  )
+  expect(rows[0]).toEqual({ rolsuper: false, rolbypassrls: false })
+})
 it('isolates tenant reads', async () => expect((await asOrg(orgA, c => c.query<{name:string}>('SELECT name FROM brands'))).rows.map(r => r.name)).toEqual(['Brand A']))
 it('rejects cross-tenant writes', async () => await expect(asOrg(orgA, c => c.query('INSERT INTO brands (org_id, name) VALUES ($1, $2)', [orgB, 'no']))).rejects.toThrow(/row-level security/i))
 it('returns no rows without an org context', async () => expect((await pool.query('SELECT * FROM brands')).rows).toEqual([]))

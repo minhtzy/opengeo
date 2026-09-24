@@ -13,13 +13,21 @@ const migrationsFolder = fileURLToPath(new URL('../../migrations', import.meta.u
 
 export async function startPostgres(): Promise<PostgresHandle> {
   const container: StartedPostgreSqlContainer = await new PostgreSqlContainer('postgres:16-alpine').start()
-  const url = container.getConnectionUri()
-  const pool = new pg.Pool({ connectionString: url })
-  await migrate(drizzle(pool), { migrationsFolder })
-  await pool.end()
+  const adminUrl = container.getConnectionUri()
+  const adminPool = new pg.Pool({ connectionString: adminUrl })
+  await migrate(drizzle(adminPool), { migrationsFolder })
+  await adminPool.query("CREATE ROLE geosuite_test LOGIN PASSWORD 'geosuite_test' NOSUPERUSER NOBYPASSRLS")
+  await adminPool.query('GRANT USAGE ON SCHEMA public TO geosuite_test')
+  await adminPool.query('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO geosuite_test')
+  await adminPool.query('GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO geosuite_test')
+  await adminPool.end()
+
+  const testUrl = new URL(adminUrl)
+  testUrl.username = 'geosuite_test'
+  testUrl.password = 'geosuite_test'
 
   return {
-    url,
+    url: testUrl.toString(),
     async stop() {
       await container.stop()
     },
